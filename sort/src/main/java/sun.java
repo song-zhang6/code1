@@ -1,7 +1,10 @@
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 class Mood{
     private String color="yellow";
+
     private volatile static Mood m;
     private Mood(){};
     public static Mood getInstance()
@@ -23,12 +26,16 @@ class Mood{
 
 
 }
-public class sun {
-    public static void main(String[] args) {
-        Mood chinamoon=Mood.getInstance();
-        chinamoon.getcolor();
-        Mood piaoliangmoon=Mood.getInstance();
-        piaoliangmoon.getcolor();
 
+public class sun {
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Mood m=Mood.getInstance();
+        Constructor<Mood> constructor=Mood.class.getDeclaredConstructor(null);
+        constructor.setAccessible(true);
+        Mood mm=constructor.newInstance();
+        System.out.println("singleton : " + m);
+        System.out.println("singletonByReflect : " + mm);
     }
 }
+
+
